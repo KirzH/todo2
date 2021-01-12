@@ -9,6 +9,8 @@ import './app.css';
 
 export default class App extends Component {
 
+  maxId = 100;
+
   state = { 
     todoData: [
       { label: 'Drink Coffee', important: false, id: 1 },
@@ -29,8 +31,37 @@ export default class App extends Component {
 
       return {
         todoData: newArray
-      }
-    })
+      };
+    });
+  };
+
+  addItem = (text) => {
+    
+    const newItem = {
+      label: text,
+      important: false,
+      id: this.maxId++,
+    };
+
+    this.setState((todoData) => {
+      
+      const newArr =[
+        ...todoData,
+        newItem
+      ];
+
+      return {
+        todoData: newArr
+      };
+    });
+  };
+
+  onToggleImportant = (id) = {
+    
+  };
+
+  onToggleDone = (id) = {
+
   };
 
   render () {
@@ -44,9 +75,12 @@ export default class App extends Component {
         
         <TodoList 
           todos={this.state.todoData} 
-          onDeleted={ this.deleteItem} />
+          onDeleted={ this.deleteItem}
+          onToggleImportant={this.onToggleImportant}
+          onToggleDone={this.onToggleDone}
+          />
 
-          <ItemAddForm />
+          <ItemAddForm onItemAdded={this.addItem}/>
       </div>
     );
   }
